@@ -1,18 +1,24 @@
 ---
 # Install the required kernel for docker
 - name: Install linux-image-{{ linux_kernel_version }}
-  tags: docker
+  tags: docker,system
   apt: package=linux-image-{{ linux_kernel_version }} update_cache=yes
 
 - name: Install linux-headers-{{ linux_kernel_version }}
-  tags: docker
+  tags: docker,system
   apt: package=linux-headers-{{ linux_kernel_version }} update_cache=yes
+
+- name: Enable extra cgroup controllers
+  tags: docker,system
+  template: src=etc.default.grub.j2 dest=/etc/default/grub
+  notify:
+    - update grub
 
 # install docker
 - name: Enable ppa adding via apt-add-repository is available
   tags: docker
   apt: pkg={{ item }} state=latest
-  with_items: docker_deps # defined in groupvars/docker.yml
+  with_items: docker_deps
 
 - name: Add docker ppa
   tags: docker

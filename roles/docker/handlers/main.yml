@@ -1,2 +1,7 @@
 ---
-- include: docker-daemon.yml
+# use status code of docker version to check if docker daemon is up, if not start it
+- name: check if docker daemon is up
+  shell: docker version
+
+- name: update grub
+  command: update-grub -o /boot/grub/grub.cfg
