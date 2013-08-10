@@ -38,4 +38,14 @@ Now, last step, reboot (to boot with the new kernel) and rerun provision:
 $ vagrant reload --provision
 ```
 
+### Known issues
+
+On my laptop (running fedora 19 and vagrant 1.2.4) when running `vagrant up` it fails due to networking not being configured
+The "solution" is to add an ip address for the host machine and rerun provision:
+
+```
+$ sudo ip addr add 192.168.111.1/24 dev vboxnet0
+$ sudo ip link set vboxnet0 up
+$ vagrant provision
+```
 
