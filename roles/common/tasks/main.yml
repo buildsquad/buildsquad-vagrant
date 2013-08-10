@@ -13,6 +13,3 @@
     - restart ntpd
   tags: ntp
 
-- name: Start ntp daemon
-  service : name=ntp state=running enabled=yes
-  tags: ntp
