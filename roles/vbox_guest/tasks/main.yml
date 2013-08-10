@@ -1,0 +1,30 @@
+- name: Install linux-header for the running kernel
+  tags: vbox
+  apt: package=linux-headers-$ansible_kernel update_cache=yes
+
+- name: Get virtualbox guest additions
+  tags: vbox
+  get_url: url=$vbox_additions_iso_url dest=$vbox_additions_iso_path
+
+- name: Install vbox additions deps
+  tags: vbox
+  apt: pkg=$item state=installed update_cache=yes
+  with_items:
+    - dkms
+    - build-essential
+    - linux-headers-generic
+
+- name: Mount additions iso
+  tags: vbox
+  command: mount $vbox_additions_iso_path -o loop $vbox_loop_mountdir creates=/lib/modules/$ansible_kernel/updates/dkms/vboxguest.ko
+
+# VboxAdditions.run complaints about X11 and then exits with code 1.
+# Adding true to avoid failures, but this is masking potential errors
+# during installation
+- name: Install vbox additions
+  tags: vbox
+  shell: /mnt/VBoxLinuxAdditions.run;true creates=/lib/modules/$ansible_kernel/updates/dkms/vboxguest.ko
+
+- name: Umount additions iso
+  tags: vbox
+  shell: umount $vbox_loop_mountdir removes={{ vbox_loop_mountdir }}/VBoxLinuxAdditions.run

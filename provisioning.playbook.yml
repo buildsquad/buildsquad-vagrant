@@ -1,0 +1,6 @@
+---
+- hosts: vagrant
+  roles:
+    - common
+    - vbox_guest
+    - docker

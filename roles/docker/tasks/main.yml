@@ -1,0 +1,23 @@
+---
+# Install the required kernel for docker
+- name: Install linux-image-{{ linux_kernel_version }}
+  tags: docker
+  apt: package=linux-image-{{ linux_kernel_version }} update_cache=yes
+
+- name: Install linux-headers-{{ linux_kernel_version }}
+  tags: docker
+  apt: package=linux-headers-{{ linux_kernel_version }} update_cache=yes
+
+# install docker
+- name: Enable ppa adding via apt-add-repository is available
+  tags: docker
+  apt: pkg={{ item }} state=latest
+  with_items: docker_deps # defined in groupvars/docker.yml
+
+- name: Add docker ppa
+  tags: docker
+  apt_repository: repo=ppa:dotcloud/lxc-docker
+
+- name: Install docker via ppa
+  tags: docker
+  apt: pkg=lxc-docker state=latest update_cache=yes

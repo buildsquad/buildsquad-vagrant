@@ -1,0 +1,18 @@
+---
+- name: Upgrade packages
+  tags: system
+  apt: upgrade=dist
+
+- name: Install ntp
+  tags: ntp
+  apt: package=ntp state=installed
+
+- name: Configure ntp
+  template: src=ntp.conf.j2 dest=/etc/ntp.conf
+  notify:
+    - restart ntpd
+  tags: ntp
+
+- name: Start ntp daemon
+  service : name=ntp state=running enabled=yes
+  tags: ntp

@@ -1,0 +1,6 @@
+---
+docker_deps:
+  - python-software-properties
+
+linux_kernel_version: generic-lts-raring
+

@@ -1,0 +1,5 @@
+---
+vbox_additions_iso_url: http://dlc.sun.com.edgesuite.net/virtualbox/4.2.16/VBoxGuestAdditions_4.2.16.iso
+vbox_additions_iso_path: /var/cache/vbox_additions.iso
+vbox_additions_iso_sha: cf2b0722da984a5f41a7814ee288262cbdf4c785630b2a7726c3daa6c5caa0c5
+vbox_loop_mountdir: /mnt

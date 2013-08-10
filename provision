@@ -1,0 +1,40 @@
+#!/bin/bash
+ap="$HOME/.virtualenvs/ansible/bin/ansible-playbook"
+ansible="$HOME/.virtualenvs/ansible/bin/ansible"
+debug=""
+dump=false
+while getopts ":hdD" opt; do
+    case $opt in
+        h)
+            echo "usage: $(basename $0) [-h] [-D] [-t tag [-t tag [...]]] [-T tag]"
+            echo
+            echo "-D: dump vars"
+            echo "-h: print this help"
+            echo "-t: add a tag to run"
+            echo "-T: replace tag list"
+            echo "default tags: $tags"
+            exit 0
+        ;;
+        d)
+            debug="-vvv"
+        ;;
+        D)
+            dump=true
+        ;;
+        :)
+            echo "Option -$OPTARG requires an argument." >&2
+            exit 1
+        ;;
+    esac
+done
+
+shift "$((OPTIND - 1))"
+
+vagrant status | grep -q "running" || vagrant up
+if $dump; then
+    cmd="$ansible vagrant -u vagrant --sudo --private-key ~/.vagrant.d/insecure_private_key -m setup -i provisioning.ansible.hosts"
+else
+    cmd="$ap -i provisioning.ansible.hosts provisioning.playbook.yml -u vagrant -s --private-key=~/.vagrant.d/insecure_private_key $debug $@"
+fi
+[ -z $debug ] || echo $cmd
+$cmd
