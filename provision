@@ -6,7 +6,7 @@ dump=false
 while getopts ":hdD" opt; do
     case $opt in
         h)
-            echo "usage: $(basename $0) [-h] [-D] [-t tag [-t tag [...]]] [-T tag]"
+            echo "usage: $(basename $0) [-h] [-D] [-d]"
             echo
             echo "-D: dump vars"
             echo "-h: print this help"
@@ -28,7 +28,7 @@ while getopts ":hdD" opt; do
     esac
 done
 
-shift "$((OPTIND - 1))"
+shift "$((OPTIND - 2))"
 
 vagrant status | grep -q "running" || vagrant up
 if $dump; then
