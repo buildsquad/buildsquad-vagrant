@@ -1,7 +1,7 @@
 ---
 - name: Upgrade packages
   tags: system
-  apt: upgrade=dist
+  apt: upgrade=dist update_cache=yes
 
 - name: Install ntp
   tags: ntp
