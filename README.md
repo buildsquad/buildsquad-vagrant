@@ -19,6 +19,8 @@ $ pip install ansible
 If `ansible` is installed into the `virtualenv`, you have to activate the `virtualenv` before running `vagrant up`
 
 ### Boostrap
+You can boostrap the project using the `precise64` default box.
+
 cd to the top level of this project (i.e. where the VagrantFile is) and copy/edit the Vagrantfile
 
 ```
@@ -40,7 +42,8 @@ $ vagrant reload --provision
 
 ### Known issues
 
-On my laptop (running fedora 19 and vagrant 1.2.4) when running `vagrant up` it fails due to networking not being configured
+On my laptop (running fedora 19 and vagrant 1.2.4) when running `vagrant up` it fails due to networking not being configured.
+
 The "solution" is to add an ip address for the host machine and rerun provision:
 
 ```
@@ -48,4 +51,3 @@ $ sudo ip addr add 192.168.111.1/24 dev vboxnet0
 $ sudo ip link set vboxnet0 up
 $ vagrant provision
 ```
-
