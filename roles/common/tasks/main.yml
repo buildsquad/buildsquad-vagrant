@@ -3,6 +3,39 @@
   tags: system
   apt: upgrade=dist update_cache=yes
 
+- name: Install common packages and utilities
+  apt: pkg=$item state=latest
+  tags: system
+  with_items:
+    - iftop
+    - htop
+    - iotop
+    - git-core
+    - traceroute
+    - dnsutils
+    - whois
+    - realpath
+    - acl
+    - telnet
+
+- name: Install vim
+  tags: system
+  apt: pkg=vim-nox state=latest
+  notify:
+    - set vim as the default editor
+
+- name: Cleanup packages
+  tags: system
+  command: apt-get autoremove -y
+
+- name: Cleanup apt
+  tags: system
+  command: apt-get clean
+
+- name: Update inputrc
+  template: src=etc.inputrc.j2 dest=/etc/inputrc
+  tags: system
+
 - name: Install ntp
   tags: ntp
   apt: package=ntp state=installed
@@ -24,3 +57,4 @@
   notify:
     - configure hostname
   tags: hostname
+

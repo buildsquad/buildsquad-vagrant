@@ -4,3 +4,6 @@
 
 - name: configure hostname
   service: name=hostname state=restarted
+
+- name: set vim as the default editor
+  command: update-alternatives --set editor /usr/bin/vim.nox
