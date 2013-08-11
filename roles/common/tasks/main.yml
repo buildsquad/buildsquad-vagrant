@@ -13,3 +13,14 @@
     - restart ntpd
   tags: ntp
 
+- name: Configure hostsfile
+  template: src=etc.hosts.j2 dest=/etc/hosts
+  notify:
+    - configure hostname
+  tags: hostname
+
+- name: Configure hostname
+  template: src=etc.hostname.j2 dest=/etc/hostname
+  notify:
+    - configure hostname
+  tags: hostname

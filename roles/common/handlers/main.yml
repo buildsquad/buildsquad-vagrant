@@ -1,3 +1,6 @@
 ---
 - name: restart ntpd
   service: name=ntp state=restarted
+
+- name: configure hostname
+  service: name=hostname state=restarted

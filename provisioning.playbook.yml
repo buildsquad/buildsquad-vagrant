@@ -1,5 +1,7 @@
 ---
-- hosts: vagrant
+- hosts: buildsquad
+  vars:
+    hostname: buildsquad
   roles:
     - common
     - vbox_guest
