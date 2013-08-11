@@ -1,6 +1,8 @@
 #!/bin/bash
-ap="$HOME/.virtualenvs/ansible/bin/ansible-playbook"
-ansible="$HOME/.virtualenvs/ansible/bin/ansible"
+ap=$(which ansible-playbook 2>/dev/null)
+ansible=$(which ansible 2>/dev/null)
+[ $? -ne 0 ] && echo "Cannot find ansible executables" && exit 1
+
 debug=""
 dump=false
 while getopts ":hdD" opt; do
@@ -17,9 +19,11 @@ while getopts ":hdD" opt; do
         ;;
         d)
             debug="-vvv"
+            shift;
         ;;
         D)
             dump=true
+            shift;
         ;;
         :)
             echo "Option -$OPTARG requires an argument." >&2
@@ -27,8 +31,6 @@ while getopts ":hdD" opt; do
         ;;
     esac
 done
-
-shift "$((OPTIND - 2))"
 
 vagrant status | grep -q "running" || vagrant up
 if $dump; then
